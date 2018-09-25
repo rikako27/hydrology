@@ -1,0 +1,12 @@
+language: python
+python:
+  - 3.6
+script:
+  - pytest tests.py
+install:
+  - pip install tabulate
+script:
+  - python nasa_hydrology.py 
+notifications:
+  emails:
+    - rikakoy@uci.edu
