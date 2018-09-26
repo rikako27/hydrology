@@ -2,6 +2,7 @@ import urllib.request
 import urllib.error
 import csv
 import math
+import sys
 from tabulate import tabulate
 
 url = " http://rapid-hub.org/data/angles_UCI_CS.csv"
@@ -16,13 +17,14 @@ def resultList(filename):
         reader = csv.DictReader(csv_file, skipinitialspace=True)
         for i in reader:
             l.append(i)
-
+    
     for i in l:
         i.update({'cosine': math.cos(math.radians(eval(i['angle_degrees'])))})
     
     return l
 
 def formattedTable(d):
+#create formatted table for the result
     header = d[0].keys()
     row = [ i.values() for i in d ]
     return tabulate(row, header)
@@ -38,9 +40,12 @@ if __name__ == '__main__':
         with open(savefile, mode='wb') as f:
             f.write(data)
         
+        print(data)
+        
         result = resultList(savefile)
         print(formattedTable(result))
         
     except urllib.error.URLError as e:
         print(e.reason)
+        sys.exit()
         
